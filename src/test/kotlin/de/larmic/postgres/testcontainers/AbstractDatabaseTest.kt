@@ -1,6 +1,6 @@
 package de.larmic.postgres.testcontainers
 
-import de.larmic.postgres.database.CompanyRepository
+import de.larmic.postgres.database.CompanyJpaRepository
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
@@ -21,11 +21,11 @@ import org.testcontainers.junit.jupiter.Testcontainers
 abstract class AbstractDatabaseTest {
 
     @Autowired
-    protected lateinit var companyRepository: CompanyRepository
+    protected lateinit var companyJpaRepository: CompanyJpaRepository
 
     @BeforeEach
     fun setUp() {
-        companyRepository.deleteAll()
+        companyJpaRepository.deleteAll()
     }
 
     companion object {

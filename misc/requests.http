@@ -1,0 +1,6 @@
+POST localhost:8080/api/company/
+Content-Type: application/json
+
+{
+  "name": "some company"
+}

@@ -13,7 +13,7 @@ class CompanyRepositoryTest : AbstractDatabaseTest() {
     fun save() {
         val entity = CompanyEntity(name = "Some company")
 
-        companyRepository.save(entity)
+        companyJpaRepository.save(entity)
 
         assertThat(entity.id).isNotZero
         assertThat(entity.name).isEqualTo("Some company")
