@@ -1,4 +1,4 @@
-POST localhost:8080/api/company/
+POST {{host}}/api/company/
 Content-Type: application/json
 
 {
@@ -22,12 +22,11 @@ Content-Type: application/json
     });
 
     client.global.set("company-id", response.body.id)
-    client.log("company-id is " + client.global.get("company-id"))
 %}
 
 ###
 
-GET localhost:8080/api/company/{{company-id}}
+GET {{host}}/api/company/{{company-id}}
 Content-Type: application/json
 
 > {%
