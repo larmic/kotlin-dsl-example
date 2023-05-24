@@ -41,7 +41,7 @@ class CompanyRepositoryTest {
 
     @Test
     fun `save company without employees`() {
-        val company = CompanyEntity(name = "Some company")
+        val company = CompanyEntity(name = "Entenhausen AG")
 
         companyRepository.save(company)
 
@@ -58,7 +58,7 @@ class CompanyRepositoryTest {
     fun `save company with employees`() {
         val employee1 = createEmployeeEntity(name = "Donald Duck", "donald@duck.de")
         val employee2 = createEmployeeEntity(name = "Daniel Düsentrieb", "daniel@düsentrieb.de")
-        val company = CompanyEntity(name = "Some company", employees = mutableListOf(employee1, employee2))
+        val company = CompanyEntity(name = "Entenhausen AG", employees = mutableListOf(employee1, employee2))
 
         companyRepository.save(company)
 

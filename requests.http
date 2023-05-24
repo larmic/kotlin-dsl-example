@@ -2,20 +2,37 @@ POST localhost:8080/api/company/
 Content-Type: application/json
 
 {
-  "name": "some company",
+  "name": "{{company-name}}",
   "employees": [
     {
-      "name": "Donald Duck",
-      "email": "donald@duck.de"
+      "name": "{{employee1-name}}",
+      "email": "{{employee1-email}}"
     },
     {
-      "name": "Daniel Düsentrieb",
-      "email": "daniel@düsentrieb.de"
+      "name": "{{employee2-name}}",
+      "email": "{{employee2-email}}"
     }
   ]
 }
 
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.contentType.mimeType === "application/json", "Unexpected content type - MIME type");
+    });
+
+    client.global.set("company-id", response.body.id)
+    client.log("company-id is " + client.global.get("company-id"))
+%}
+
 ###
 
-GET localhost:8080/api/company/1
+GET localhost:8080/api/company/{{company-id}}
 Content-Type: application/json
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.contentType.mimeType === "application/json", "Unexpected content type - MIME type");
+    });
+%}

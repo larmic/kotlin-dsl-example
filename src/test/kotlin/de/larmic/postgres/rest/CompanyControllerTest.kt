@@ -26,7 +26,7 @@ class CompanyControllerTest {
 
     @Test
     fun `create a new company`() {
-        val companyName = "some company"
+        val companyName = "Entenhausen AG"
         val employee1 = createEmployeeDto(name = "Donald Duck", "donald@duck.de")
         val employee2 = createEmployeeDto(name = "Daniel Düsentrieb", "daniel@düsentrieb.de")
 
