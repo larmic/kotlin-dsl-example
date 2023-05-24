@@ -25,18 +25,20 @@ class CompanyController(private val companyRepository: CompanyRepository) {
         return ResponseEntity.notFound().build()
     }
 
-    private fun CreateEmployeeDto.mapToEntity() = EmployeeEntity(name = this.name, email = this.email)
-    private fun CreateCompanyDto.mapToEntity() =
-        CompanyEntity(name = this.name, employees = this.employees.map { it.mapToEntity() }.toMutableList())
-
-    private fun CompanyEntity.mapToDto() = ReadCompanyDto(id = this.id, name = this.name, employees = this.employees.map { it.mapToDto() })
-    private fun CompanyEntity.wrapInResponse() = ResponseEntity.ok(this.mapToDto())
     private fun CompanyEntity.storyInDatabase() = companyRepository.save(this)
-    private fun EmployeeEntity.mapToDto() = ReadEmployeeDto(id = this.id, name = this.name, email = this.email)
 }
 
+// dtos
 class CreateEmployeeDto(val name: String, val email: String)
 class ReadEmployeeDto(val id: Long, val name: String, val email: String)
 
 class CreateCompanyDto(val name: String, val employees: List<CreateEmployeeDto> = emptyList())
 class ReadCompanyDto(val id: Long, val name: String, val employees: List<ReadEmployeeDto> = emptyList())
+
+// mapping stuff
+private fun CreateEmployeeDto.mapToEntity() = EmployeeEntity(name = this.name, email = this.email)
+private fun CreateCompanyDto.mapToEntity() =
+    CompanyEntity(name = this.name, employees = this.employees.map { it.mapToEntity() }.toMutableList())
+private fun CompanyEntity.mapToDto() = ReadCompanyDto(id = this.id, name = this.name, employees = this.employees.map { it.mapToDto() })
+private fun CompanyEntity.wrapInResponse() = ResponseEntity.ok(this.mapToDto())
+private fun EmployeeEntity.mapToDto() = ReadEmployeeDto(id = this.id, name = this.name, email = this.email)

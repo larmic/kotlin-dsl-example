@@ -21,7 +21,7 @@ class CompanyEntity(
     @Column(name = "name", nullable = false)
     var name: String,
 
-    @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "company_fk")
     val employees: MutableList<EmployeeEntity> = mutableListOf()
 )
