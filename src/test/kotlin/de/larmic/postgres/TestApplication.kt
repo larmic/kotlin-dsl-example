@@ -7,6 +7,7 @@ import org.springframework.boot.testcontainers.service.connection.ServiceConnect
 import org.springframework.context.annotation.Bean
 import org.testcontainers.containers.PostgreSQLContainer
 
+// https://github.com/testcontainers/testcontainers-java-spring-boot-quickstart
 // debugging class to start application in development mode
 // required postgres db will be automatically started
 object TestApplication {
@@ -18,7 +19,6 @@ object TestApplication {
             .run(*args)
     }
 }
-
 
 @TestConfiguration(proxyBeanMethods = false)
 class ContainersConfig {
