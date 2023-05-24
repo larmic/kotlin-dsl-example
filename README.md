@@ -3,6 +3,7 @@
 IN PROGRESS
 
 ```shell
-# start postgresql
-$ docker compose -f misc/postgresql/docker-compose.yml up
+# start app in development mode
+# postgres db will be started automatically
+$ ./mvnw spring-boot:test-run
 ```
