@@ -2,5 +2,20 @@ POST localhost:8080/api/company/
 Content-Type: application/json
 
 {
-  "name": "some company"
+  "name": "some company",
+  "employees": [
+    {
+      "name": "Donald Duck",
+      "email": "donald@duck.de"
+    },
+    {
+      "name": "Daniel Düsentrieb",
+      "email": "daniel@düsentrieb.de"
+    }
+  ]
 }
+
+###
+
+GET localhost:8080/api/company/1
+Content-Type: application/json

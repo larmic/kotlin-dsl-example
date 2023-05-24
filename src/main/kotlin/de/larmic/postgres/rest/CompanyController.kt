@@ -2,6 +2,7 @@ package de.larmic.postgres.rest
 
 import de.larmic.postgres.database.CompanyEntity
 import de.larmic.postgres.database.CompanyRepository
+import de.larmic.postgres.database.EmployeeEntity
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -11,9 +12,9 @@ class CompanyController(private val companyRepository: CompanyRepository) {
 
     @PostMapping("/", consumes = ["application/json"], produces = ["application/json"])
     fun create(@RequestBody dto: CreateCompanyDto) = dto
-            .mapToEntity()
-            .storyInDatabase()
-            .mapToDto()
+        .mapToEntity()
+        .storyInDatabase()
+        .mapToDto()
 
     @GetMapping("/{id}")
     fun readTweet(@PathVariable id: Long): ResponseEntity<ReadCompanyDto> {
@@ -24,11 +25,18 @@ class CompanyController(private val companyRepository: CompanyRepository) {
         return ResponseEntity.notFound().build()
     }
 
-    private fun CreateCompanyDto.mapToEntity() = CompanyEntity(name = this.name)
-    private fun CompanyEntity.mapToDto() = ReadCompanyDto(this.id.toString(), this.name)
+    private fun CreateEmployeeDto.mapToEntity() = EmployeeEntity(name = this.name, email = this.email)
+    private fun CreateCompanyDto.mapToEntity() =
+        CompanyEntity(name = this.name, employees = this.employees.map { it.mapToEntity() }.toMutableList())
+
+    private fun CompanyEntity.mapToDto() = ReadCompanyDto(id = this.id, name = this.name, employees = this.employees.map { it.mapToDto() })
     private fun CompanyEntity.wrapInResponse() = ResponseEntity.ok(this.mapToDto())
     private fun CompanyEntity.storyInDatabase() = companyRepository.save(this)
+    private fun EmployeeEntity.mapToDto() = ReadEmployeeDto(id = this.id, name = this.name, email = this.email)
 }
 
-class CreateCompanyDto(val name: String)
-class ReadCompanyDto(val id: String, val name: String)
+class CreateEmployeeDto(val name: String, val email: String)
+class ReadEmployeeDto(val id: Long, val name: String, val email: String)
+
+class CreateCompanyDto(val name: String, val employees: List<CreateEmployeeDto> = emptyList())
+class ReadCompanyDto(val id: Long, val name: String, val employees: List<ReadEmployeeDto> = emptyList())
