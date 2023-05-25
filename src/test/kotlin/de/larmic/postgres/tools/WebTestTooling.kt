@@ -1,5 +1,9 @@
 package de.larmic.postgres.tools
 
+import org.springframework.http.MediaType
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.post
+
 class PostBuilder {
 
     private var body: String = ""
@@ -11,7 +15,7 @@ class PostBuilder {
     fun buildJson() = body
 }
 
-class ApiTestBuilder(private val contextPath: String) {
+class ApiTestBuilder(private val mockMvc: MockMvc, private val contextPath: String) {
 
     private var body: String = ""
 
@@ -19,9 +23,10 @@ class ApiTestBuilder(private val contextPath: String) {
         this.body = PostBuilder().apply(block).buildJson()
     }
 
-    fun execute() {
-        println("POST '$contextPath'")
+    fun execute() = mockMvc.post("/api/company/") {
+        contentType = MediaType.APPLICATION_JSON
+        content = body
     }
 }
 
-fun apiTest(contextPath: String, block: ApiTestBuilder.() -> Unit) = ApiTestBuilder(contextPath).apply(block).execute()
+fun apiTest(mockMvc: MockMvc, contextPath: String, block: ApiTestBuilder.() -> Unit) = ApiTestBuilder(mockMvc, contextPath).apply(block).execute()

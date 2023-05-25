@@ -4,7 +4,6 @@ import com.ninjasquad.springmockk.MockkBean
 import de.larmic.postgres.database.CompanyRepository
 import de.larmic.postgres.database.EmployeeEntity
 import de.larmic.postgres.tools.apiTest
-import de.larmic.postgres.tools.companyJson
 import io.mockk.every
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.post
 
 @WebMvcTest(CompanyController::class)
 class CompanyControllerTest {
@@ -29,7 +27,7 @@ class CompanyControllerTest {
     fun `create a new company`() {
         every { companyRepositoryMock.save(any()) } returnsArgument 0
 
-        apiTest("/api/company") {
+        apiTest(mockMvc, "/api/company") {
             post {
                 body {
                     name = "Panzerknacker AG"
@@ -41,21 +39,6 @@ class CompanyControllerTest {
                         name = "Kuno Knack"
                         email = "kuno@knack.de"
                     }
-                }
-            }
-        }
-
-        this.mockMvc.post("/api/company/") {
-            contentType = MediaType.APPLICATION_JSON
-            content = companyJson {
-                name = "Panzerknacker AG"
-                employee {
-                    name = "Karlchen Knack"
-                    email = "karlchen@knack.de"
-                }
-                employee {
-                    name = "Kuno Knack"
-                    email = "kuno@knack.de"
                 }
             }
         }.andExpect {
