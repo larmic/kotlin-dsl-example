@@ -10,7 +10,7 @@ class CompanyRepository(private val companyJpaRepository: CompanyJpaRepository) 
 
     fun get(companyId: Long) = companyJpaRepository.getReferenceById(companyId)
 
-    fun exists(companyId: Long) = companyJpaRepository.existsById(companyId)
+    infix fun exists(companyId: Long) = companyJpaRepository.existsById(companyId)
 
 }
 

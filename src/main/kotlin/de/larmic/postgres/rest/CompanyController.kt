@@ -18,7 +18,7 @@ class CompanyController(private val companyRepository: CompanyRepository) {
 
     @GetMapping("/{id}")
     fun readTweet(@PathVariable id: Long): ResponseEntity<ReadCompanyDto> {
-        if (companyRepository.exists(id)) {
+        if (companyRepository exists id) {
             return companyRepository.get(id).wrapInResponse()
         }
 
