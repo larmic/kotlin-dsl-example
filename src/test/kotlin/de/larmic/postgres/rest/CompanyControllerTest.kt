@@ -3,7 +3,7 @@ package de.larmic.postgres.rest
 import com.ninjasquad.springmockk.MockkBean
 import de.larmic.postgres.database.CompanyRepository
 import de.larmic.postgres.database.EmployeeEntity
-import de.larmic.postgres.tools.createEmployeeDto
+import de.larmic.postgres.tools.companyDto
 import io.mockk.every
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
@@ -26,50 +26,42 @@ class CompanyControllerTest {
 
     @Test
     fun `create a new company`() {
-        val companyName = "Entenhausen AG"
-        val employee1 = createEmployeeDto(name = "Donald Duck", "donald@duck.de")
-        val employee2 = createEmployeeDto(name = "Daniel Düsentrieb", "daniel@düsentrieb.de")
-
         every { companyRepositoryMock.save(any()) } returnsArgument 0
 
         this.mockMvc.post("/api/company/") {
             contentType = MediaType.APPLICATION_JSON
-            content = """
-                {
-                    "name": "$companyName",
-                    "employees": [
-                        {
-                            "name": "${employee1.name}",
-                            "email": "${employee1.email}"
-                        },
-                        {
-                            "name": "${employee2.name}",
-                            "email": "${employee2.email}"
-                        }
-                    ]
+            content = companyDto {
+                name = "Panzerknacker AG"
+                employee {
+                    name = "Karlchen Knack"
+                    email = "karlchen@knack.de"
                 }
-            """.trimIndent()
+                employee {
+                    name = "Kuno Knack"
+                    email = "kuno@knack.de"
+                }
+            }
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
             content { jsonPath("$.id") { exists() } }
-            content { jsonPath("$.name") { value(companyName) } }
+            content { jsonPath("$.name") { value("Panzerknacker AG") } }
             content { jsonPath("$.employees[0].id") { exists() } }
-            content { jsonPath("$.employees[0].name") { value(employee1.name) } }
-            content { jsonPath("$.employees[0].email") { value(employee1.email) } }
+            content { jsonPath("$.employees[0].name") { value("Karlchen Knack") } }
+            content { jsonPath("$.employees[0].email") { value("karlchen@knack.de") } }
             content { jsonPath("$.employees[1].id") { exists() } }
-            content { jsonPath("$.employees[1].name") { value(employee2.name) } }
-            content { jsonPath("$.employees[1].email") { value(employee2.email) } }
+            content { jsonPath("$.employees[1].name") { value("Kuno Knack") } }
+            content { jsonPath("$.employees[1].email") { value("kuno@knack.de") } }
         }
 
         verify {
             companyRepositoryMock.save(withArg {
-                assertThat(it.name).isEqualTo(companyName)
+                assertThat(it.name).isEqualTo("Panzerknacker AG")
                 assertThat(it.employees)
                     .extracting(EmployeeEntity::name, EmployeeEntity::email)
                     .containsExactlyInAnyOrder(
-                        tuple(employee1.name, employee1.email),
-                        tuple(employee2.name, employee2.email),
+                        tuple("Karlchen Knack", "karlchen@knack.de"),
+                        tuple("Kuno Knack", "kuno@knack.de"),
                     )
             })
         }
