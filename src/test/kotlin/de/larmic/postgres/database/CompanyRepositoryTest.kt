@@ -1,5 +1,6 @@
 package de.larmic.postgres.database
 
+import de.larmic.postgres.tools.createCompanyEntity
 import de.larmic.postgres.tools.createEmployeeEntity
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.within
@@ -41,7 +42,7 @@ class CompanyRepositoryTest {
 
     @Test
     fun `save company without employees`() {
-        val company = CompanyEntity(name = "Entenhausen AG")
+        val company = createCompanyEntity()
 
         companyRepository.save(company)
 
@@ -58,7 +59,7 @@ class CompanyRepositoryTest {
     fun `save company with employees`() {
         val employee1 = createEmployeeEntity(name = "Donald Duck", "donald@duck.de")
         val employee2 = createEmployeeEntity(name = "Daniel Düsentrieb", "daniel@düsentrieb.de")
-        val company = CompanyEntity(name = "Entenhausen AG", employees = mutableListOf(employee1, employee2))
+        val company = createCompanyEntity(employees = listOf(employee1, employee2))
 
         companyRepository.save(company)
 
