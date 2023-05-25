@@ -1,7 +1,6 @@
 package de.larmic.postgres.database
 
 import de.larmic.postgres.tools.company
-import de.larmic.postgres.tools.employee
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.within
 import org.assertj.core.groups.Tuple.tuple
