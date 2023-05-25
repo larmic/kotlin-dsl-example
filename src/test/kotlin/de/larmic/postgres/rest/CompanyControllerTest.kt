@@ -25,10 +25,12 @@ class CompanyControllerTest {
 
     @Test
     fun `create a new company`() {
-        every { companyRepositoryMock.save(any()) } returnsArgument 0
-
-        apiTest(mockMvc, "/api/company") {
+        apiTest(mockMvc, "/api/company/") {
             post {
+                prepare {
+                    every { companyRepositoryMock.save(any()) } returnsArgument 0
+                    println("running preparation")
+                }
                 body {
                     name = "Panzerknacker AG"
                     employee {
@@ -40,6 +42,8 @@ class CompanyControllerTest {
                         email = "kuno@knack.de"
                     }
                 }
+                // TODO expectedStatus
+                // TODO expected Json Body
             }
         }.andExpect {
             status { isOk() }
