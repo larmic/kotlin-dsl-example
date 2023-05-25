@@ -5,6 +5,7 @@ import de.larmic.postgres.database.CompanyRepository
 import de.larmic.postgres.database.EmployeeEntity
 import de.larmic.postgres.tools.apiTest
 import de.larmic.postgres.tools.companyDto
+import de.larmic.postgres.tools.companyJson
 import io.mockk.every
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
@@ -30,12 +31,24 @@ class CompanyControllerTest {
         every { companyRepositoryMock.save(any()) } returnsArgument 0
 
         apiTest("/api/company") {
-
+            post {
+                body = companyDto {
+                    name = "Panzerknacker AG"
+                    employee {
+                        name = "Karlchen Knack"
+                        email = "karlchen@knack.de"
+                    }
+                    employee {
+                        name = "Kuno Knack"
+                        email = "kuno@knack.de"
+                    }
+                }
+            }
         }
 
         this.mockMvc.post("/api/company/") {
             contentType = MediaType.APPLICATION_JSON
-            content = companyDto {
+            content = companyJson {
                 name = "Panzerknacker AG"
                 employee {
                     name = "Karlchen Knack"

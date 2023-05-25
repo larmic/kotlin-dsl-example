@@ -45,7 +45,9 @@ class CreateCompanyDtoBuilder {
         employees.add(CreateEmployeeDtoBuilder().apply(block).build())
     }
 
-    fun build() = jacksonObjectMapper().writeValueAsString(CreateCompanyDto(name = name, employees = employees))
+    fun buildDto() = CreateCompanyDto(name = name, employees = employees)
+    fun buildJson() = jacksonObjectMapper().writeValueAsString(CreateCompanyDto(name = name, employees = employees))
 }
 
-fun companyDto(block: CreateCompanyDtoBuilder.() -> Unit) = CreateCompanyDtoBuilder().apply(block).build()
+fun companyJson(block: CreateCompanyDtoBuilder.() -> Unit) = CreateCompanyDtoBuilder().apply(block).buildJson()
+fun companyDto(block: CreateCompanyDtoBuilder.() -> Unit) = CreateCompanyDtoBuilder().apply(block).buildDto()
