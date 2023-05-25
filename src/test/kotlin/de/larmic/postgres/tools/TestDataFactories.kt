@@ -6,21 +6,6 @@ import de.larmic.postgres.database.EmployeeEntity
 import de.larmic.postgres.rest.CreateCompanyDto
 import de.larmic.postgres.rest.CreateEmployeeDto
 
-fun createEmployeeEntity(
-    name: String = "Donald Duck",
-    email: String = "donald@duck.de",
-) = EmployeeEntity(name = name, email = email)
-
-fun createCompanyEntity(
-    name: String = "Entenhausen AG",
-    employees: List<EmployeeEntity> = emptyList(),
-) = CompanyEntity(name = name, employees = employees.toMutableList())
-
-fun createEmployeeDto(
-    name: String = "Donald Duck",
-    email: String = "donald@duck.de",
-) = CreateEmployeeDto(name = name, email = email)
-
 // entities
 
 class EmployeeEntityBuilder {
@@ -29,8 +14,6 @@ class EmployeeEntityBuilder {
 
     fun build() = EmployeeEntity(name = name, email = email)
 }
-
-fun employee(block: EmployeeEntityBuilder.() -> Unit) = EmployeeEntityBuilder().apply(block).build()
 
 class CompanyEntityBuilder {
     var name: String = "Entenhausen AG"
@@ -53,8 +36,6 @@ class CreateEmployeeDtoBuilder {
 
     fun build() = CreateEmployeeDto(name = name, email = email)
 }
-
-fun employeeDto(block: CreateEmployeeDtoBuilder.() -> Unit) = CreateEmployeeDtoBuilder().apply(block).build()
 
 class CreateCompanyDtoBuilder {
     var name: String = "Entenhausen AG"
