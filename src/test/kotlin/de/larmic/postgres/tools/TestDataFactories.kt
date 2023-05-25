@@ -15,9 +15,8 @@ class EmployeeEntityBuilder {
     fun build() = EmployeeEntity(name = name, email = email)
 }
 
-class CompanyEntityBuilder {
+class CompanyEntityBuilder(private val employees: MutableList<EmployeeEntity> = mutableListOf()) {
     var name: String = "Entenhausen AG"
-    val employees: MutableList<EmployeeEntity> = mutableListOf()
 
     fun employee(block: EmployeeEntityBuilder.() -> Unit) {
         employees.add(EmployeeEntityBuilder().apply(block).build())
@@ -37,9 +36,8 @@ class CreateEmployeeDtoBuilder {
     fun build() = CreateEmployeeDto(name = name, email = email)
 }
 
-class CreateCompanyDtoBuilder {
+class CreateCompanyDtoBuilder(private val employees: MutableList<CreateEmployeeDto> = mutableListOf()) {
     var name: String = "Entenhausen AG"
-    val employees: MutableList<CreateEmployeeDto> = mutableListOf()
 
     fun employee(block: CreateEmployeeDtoBuilder.() -> Unit) {
         employees.add(CreateEmployeeDtoBuilder().apply(block).build())

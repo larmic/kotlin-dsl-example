@@ -1,20 +1,27 @@
 package de.larmic.postgres.tools
 
-import de.larmic.postgres.rest.CreateCompanyDto
-
 class PostBuilder {
 
-    var body: CreateCompanyDto = companyDto {}
+    private var body: String = ""
 
-}
-
-class ApiTestBuilder(contextPath: String) {
-
-    fun post(block: PostBuilder.() -> Unit) {
-
+    fun body(block: CreateCompanyDtoBuilder.() -> Unit) {
+        this.body = CreateCompanyDtoBuilder().apply(block).buildJson()
     }
 
-    fun execute() {}
+    fun buildJson() = body
 }
 
-fun apiTest(contextPath: String, block: ApiTestBuilder.() -> Unit) = ApiTestBuilder(contextPath).execute()
+class ApiTestBuilder(private val contextPath: String) {
+
+    private var body: String = ""
+
+    fun post(block: PostBuilder.() -> Unit) {
+        this.body = PostBuilder().apply(block).buildJson()
+    }
+
+    fun execute() {
+        println("POST '$contextPath'")
+    }
+}
+
+fun apiTest(contextPath: String, block: ApiTestBuilder.() -> Unit) = ApiTestBuilder(contextPath).apply(block).execute()

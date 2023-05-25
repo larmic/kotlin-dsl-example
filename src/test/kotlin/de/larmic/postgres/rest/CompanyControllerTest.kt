@@ -4,7 +4,6 @@ import com.ninjasquad.springmockk.MockkBean
 import de.larmic.postgres.database.CompanyRepository
 import de.larmic.postgres.database.EmployeeEntity
 import de.larmic.postgres.tools.apiTest
-import de.larmic.postgres.tools.companyDto
 import de.larmic.postgres.tools.companyJson
 import io.mockk.every
 import io.mockk.verify
@@ -32,7 +31,7 @@ class CompanyControllerTest {
 
         apiTest("/api/company") {
             post {
-                body = companyDto {
+                body {
                     name = "Panzerknacker AG"
                     employee {
                         name = "Karlchen Knack"
