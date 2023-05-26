@@ -2,23 +2,30 @@ package de.larmic.postgres.tools
 
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.MockMvcResultMatchersDsl
 import org.springframework.test.web.servlet.ResultActionsDsl
 import org.springframework.test.web.servlet.post
 
 class PostBuilder {
 
-    private var body: String = ""
+    var body: String = ""
+        private set
+
+    var dsl: (MockMvcResultMatchersDsl.() -> Unit)? = null
+        private set
 
     fun body(block: CreateCompanyDtoBuilder.() -> Unit) {
         this.body = CreateCompanyDtoBuilder().apply(block).buildJson()
     }
 
-    fun buildJson() = body
+    fun andExpect(dsl: MockMvcResultMatchersDsl.() -> Unit) {
+        this.dsl = dsl
+    }
 }
 
 class ApiTestBuilder(private val mockMvc: MockMvc, private val contextPath: String) {
 
-    private var body: String = ""
+    private var postBuilder: PostBuilder? = null
     private var preparation: (Any.() -> Unit)? = null
 
     fun prepare(block: Any.() -> Unit) {
@@ -26,15 +33,24 @@ class ApiTestBuilder(private val mockMvc: MockMvc, private val contextPath: Stri
     }
 
     fun post(block: PostBuilder.() -> Unit) {
-        this.body = PostBuilder().apply(block).buildJson()
+        this.postBuilder = PostBuilder().apply(block)
     }
 
-    fun execute(): ResultActionsDsl {
+    fun execute(): ResultActionsDsl? {
         preparation?.invoke {}
-        return mockMvc.post(contextPath) {
-            contentType = MediaType.APPLICATION_JSON
-            content = body
+        postBuilder?.let {
+            val post = mockMvc.post(contextPath) {
+                contentType = MediaType.APPLICATION_JSON
+                content = it.body
+            }
+
+            if (it.dsl != null) {
+                post.andExpect(it.dsl!!)
+            }
+
+            return post
         }
+        return null
     }
 }
 

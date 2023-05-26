@@ -29,7 +29,6 @@ class CompanyControllerTest {
             post {
                 prepare {
                     every { companyRepositoryMock.save(any()) } returnsArgument 0
-                    println("running preparation")
                 }
                 body {
                     name = "Panzerknacker AG"
@@ -42,20 +41,19 @@ class CompanyControllerTest {
                         email = "kuno@knack.de"
                     }
                 }
-                // TODO expectedStatus
-                // TODO expected Json Body
+                andExpect {
+                    status { isOk() }
+                    content { contentType(MediaType.APPLICATION_JSON) }
+                    content { jsonPath("$.id") { exists() } }
+                    content { jsonPath("$.name") { value("Panzerknacker AG") } }
+                    content { jsonPath("$.employees[0].id") { exists() } }
+                    content { jsonPath("$.employees[0].name") { value("Karlchen Knack") } }
+                    content { jsonPath("$.employees[0].email") { value("karlchen@knack.de") } }
+                    content { jsonPath("$.employees[1].id") { exists() } }
+                    content { jsonPath("$.employees[1].name") { value("Kuno Knack") } }
+                    content { jsonPath("$.employees[1].email") { value("kuno@knack.de") } }
+                }
             }
-        }.andExpect {
-            status { isOk() }
-            content { contentType(MediaType.APPLICATION_JSON) }
-            content { jsonPath("$.id") { exists() } }
-            content { jsonPath("$.name") { value("Panzerknacker AG") } }
-            content { jsonPath("$.employees[0].id") { exists() } }
-            content { jsonPath("$.employees[0].name") { value("Karlchen Knack") } }
-            content { jsonPath("$.employees[0].email") { value("karlchen@knack.de") } }
-            content { jsonPath("$.employees[1].id") { exists() } }
-            content { jsonPath("$.employees[1].name") { value("Kuno Knack") } }
-            content { jsonPath("$.employees[1].email") { value("kuno@knack.de") } }
         }
 
         verify {

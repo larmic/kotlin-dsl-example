@@ -46,6 +46,3 @@ class CreateCompanyDtoBuilder(private val employees: MutableList<CreateEmployeeD
     fun buildDto() = CreateCompanyDto(name = name, employees = employees)
     fun buildJson() = jacksonObjectMapper().writeValueAsString(CreateCompanyDto(name = name, employees = employees))
 }
-
-fun companyJson(block: CreateCompanyDtoBuilder.() -> Unit) = CreateCompanyDtoBuilder().apply(block).buildJson()
-fun companyDto(block: CreateCompanyDtoBuilder.() -> Unit) = CreateCompanyDtoBuilder().apply(block).buildDto()
