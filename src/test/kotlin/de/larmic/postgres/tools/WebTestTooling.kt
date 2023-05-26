@@ -18,7 +18,7 @@ class PostBuilder {
         this.body = CreateCompanyDtoBuilder().apply(block).buildJson()
     }
 
-    fun andExpect(dsl: MockMvcResultMatchersDsl.() -> Unit) {
+    fun expectedResult(dsl: MockMvcResultMatchersDsl.() -> Unit) {
         this.dsl = dsl
     }
 }

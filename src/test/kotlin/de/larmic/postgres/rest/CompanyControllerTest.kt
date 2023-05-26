@@ -41,7 +41,7 @@ class CompanyControllerTest {
                         email = "kuno@knack.de"
                     }
                 }
-                andExpect {
+                expectedResult {
                     status { isOk() }
                     content { contentType(MediaType.APPLICATION_JSON) }
                     content { jsonPath("$.id") { exists() } }
