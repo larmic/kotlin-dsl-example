@@ -1,9 +1,9 @@
-package de.larmic.postgres.rest
+package de.larmic.kotlindsl.example.rest
 
 import com.ninjasquad.springmockk.MockkBean
-import de.larmic.postgres.database.CompanyRepository
-import de.larmic.postgres.database.EmployeeEntity
-import de.larmic.postgres.tools.apiTest
+import de.larmic.kotlindsl.example.database.CompanyRepository
+import de.larmic.kotlindsl.example.database.EmployeeEntity
+import de.larmic.kotlindsl.example.tools.apiTest
 import io.mockk.every
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat

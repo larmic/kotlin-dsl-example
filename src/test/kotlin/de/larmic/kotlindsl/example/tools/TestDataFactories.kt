@@ -1,10 +1,10 @@
-package de.larmic.postgres.tools
+package de.larmic.kotlindsl.example.tools
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import de.larmic.postgres.database.CompanyEntity
-import de.larmic.postgres.database.EmployeeEntity
-import de.larmic.postgres.rest.CreateCompanyDto
-import de.larmic.postgres.rest.CreateEmployeeDto
+import de.larmic.kotlindsl.example.database.CompanyEntity
+import de.larmic.kotlindsl.example.database.EmployeeEntity
+import de.larmic.kotlindsl.example.rest.CreateCompanyDto
+import de.larmic.kotlindsl.example.rest.CreateEmployeeDto
 
 // entities
 

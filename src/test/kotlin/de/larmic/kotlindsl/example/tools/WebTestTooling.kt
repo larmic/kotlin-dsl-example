@@ -1,4 +1,4 @@
-package de.larmic.postgres.tools
+package de.larmic.kotlindsl.example.tools
 
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc

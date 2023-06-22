@@ -1,4 +1,4 @@
-package de.larmic.postgres.database
+package de.larmic.kotlindsl.example.database
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository

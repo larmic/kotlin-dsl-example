@@ -1,4 +1,4 @@
-package de.larmic.postgres
+package de.larmic.kotlindsl.example
 
 import org.springframework.boot.Banner
 import org.springframework.boot.autoconfigure.SpringBootApplication

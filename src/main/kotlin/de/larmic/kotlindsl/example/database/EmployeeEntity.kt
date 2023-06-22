@@ -1,4 +1,4 @@
-package de.larmic.postgres.database
+package de.larmic.kotlindsl.example.database
 
 import jakarta.persistence.*
 import java.time.LocalDateTime

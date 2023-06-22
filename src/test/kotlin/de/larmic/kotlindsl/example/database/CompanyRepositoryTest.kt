@@ -1,6 +1,6 @@
-package de.larmic.postgres.database
+package de.larmic.kotlindsl.example.database
 
-import de.larmic.postgres.tools.company
+import de.larmic.kotlindsl.example.tools.company
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.within
 import org.assertj.core.groups.Tuple.tuple
