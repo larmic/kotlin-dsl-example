@@ -1,4 +1,4 @@
-package de.larmic.postgres
+package de.larmic.kotlindsl.example
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.devtools.restart.RestartScope
@@ -14,7 +14,7 @@ object TestApplication {
     @JvmStatic
     fun main(args: Array<String>) {
         SpringApplication
-            .from(Application::main)
+            .from(Application.Companion::main)
             .with(ContainersConfig::class.java)
             .run(*args)
     }

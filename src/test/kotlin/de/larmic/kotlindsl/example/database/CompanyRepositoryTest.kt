@@ -1,7 +1,6 @@
-package de.larmic.postgres.database
+package de.larmic.kotlindsl.example.database
 
-import de.larmic.postgres.tools.createCompanyEntity
-import de.larmic.postgres.tools.createEmployeeEntity
+import de.larmic.kotlindsl.example.tools.company
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.within
 import org.assertj.core.groups.Tuple.tuple
@@ -42,7 +41,9 @@ class CompanyRepositoryTest {
 
     @Test
     fun `save company without employees`() {
-        val company = createCompanyEntity()
+        val company = company {
+            name = "Panzerknacker AG"
+        }
 
         companyRepository.save(company)
 
@@ -57,9 +58,17 @@ class CompanyRepositoryTest {
 
     @Test
     fun `save company with employees`() {
-        val employee1 = createEmployeeEntity(name = "Donald Duck", "donald@duck.de")
-        val employee2 = createEmployeeEntity(name = "Daniel Düsentrieb", "daniel@düsentrieb.de")
-        val company = createCompanyEntity(employees = listOf(employee1, employee2))
+        val company = company {
+            name = "Panzerknacker AG"
+            employee {
+                name = "Karlchen Knack"
+                email = "karlchen@knack.de"
+            }
+            employee {
+                name = "Kuno Knack"
+                email = "kuno@knack.de"
+            }
+        }
 
         companyRepository.save(company)
 
@@ -70,8 +79,8 @@ class CompanyRepositoryTest {
         assertThat(fetchedCompany.employees)
             .extracting(EmployeeEntity::name, EmployeeEntity::email)
             .containsExactlyInAnyOrder(
-                tuple(employee1.name, employee1.email),
-                tuple(employee2.name, employee2.email),
+                tuple(company.employees[0].name, company.employees[0].email),
+                tuple(company.employees[1].name, company.employees[1].email),
             )
         assertThat(fetchedCompany.createDate).isCloseTo(now(), within(1, ChronoUnit.SECONDS))
         assertThat(fetchedCompany.lastUpdateDate).isCloseTo(now(), within(1, ChronoUnit.SECONDS))
