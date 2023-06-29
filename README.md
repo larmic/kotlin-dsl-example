@@ -7,16 +7,8 @@ If you are looking for a bit more complex examle take a loot [here](src/test/kot
 
 ## Make goals
 
+Check [Makefile](Makefile) or type
+
 ```shell
-# build application incl. automated tests
-$ make java-build-application
-
-# start app in development mode
-# postgres db will be started automatically
-$ make java-run-application
-
-# send a test rest request and create a company
-# incl. some employees
-# NOTE: a running server is required (make java-run-application)
-$ make http-test-request
+$ make 
 ```
